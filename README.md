@@ -13,6 +13,32 @@ This project performs end-to-end sentiment analysis on e-commerce product review
 
 ##  Quick Start
 
+### Important: Dataset Setup
+
+**Note:** Due to GitHub's file size limits, the raw dataset and some processed files are not included in this repository. You need to add the dataset before running the analysis.
+
+**Required File:**
+- `data/raw/GrammarandProductReviews.csv` (95 MB)
+
+**Download Link:**
+- [Download GrammarandProductReviews.csv from Google Drive](https://drive.google.com/file/d/1ehbk5Gk54nQvmep_dduAkTcQpV3I8aOZ/view)
+
+**Setup Steps:**
+```bash
+# 1. Clone this repository
+git clone https://github.com/Manansharma123/Health.git
+cd Health
+
+# 2. Create the data directory structure (if not exists)
+mkdir -p data/raw
+
+# 3. Download and place the dataset
+# Place GrammarandProductReviews.csv in data/raw/
+
+# 4. Verify the file is in place
+ls -lh data/raw/GrammarandProductReviews.csv
+```
+
 ### 1. Setup Environment
 
 ```bash
@@ -201,7 +227,37 @@ jupyter>=1.0.0
 4. **Customize analysis** - Modify parameters to explore different insights
 5. **Export visualizations** - Right-click charts to save as images
 
+## Large Files Not Included in Repository
+
+Due to GitHub's file size limits (100 MB maximum), the following files are **excluded** from this repository but are **required** to run the full analysis:
+
+### Excluded Files:
+
+| File | Size | Location | Required For |
+|------|------|----------|--------------|
+| `GrammarandProductReviews.csv` | 95 MB | `data/raw/` | Running the Jupyter notebook |
+| `sentiment_labeled_data.csv` | 133 MB | `data/processed/` | Web dashboard (auto-generated) |
+| `sentiment_classifier.pkl` | 118 MB | `data/models/` | ML model (auto-generated) |
+| `tfidf_vectorizer.pkl` | 10 MB | `data/models/` | ML model (auto-generated) |
+
+### How to Get These Files:
+
+**Option 1: Download the Dataset (Required)**
+- [Download GrammarandProductReviews.csv from Google Drive](https://drive.google.com/file/d/1ehbk5Gk54nQvmep_dduAkTcQpV3I8aOZ/view)
+- Place the downloaded file in `data/raw/` directory
+
+**Option 2: Generate Processed Files (Automatic)**
+- Run the Jupyter notebook `complete_analysis.ipynb`
+- It will automatically generate:
+  - `sentiment_labeled_data.csv` in `data/processed/`
+  - `sentiment_classifier.pkl` and `tfidf_vectorizer.pkl` in `data/models/`
+
+**Note:** The web dashboard requires the processed CSV files. Run the notebook first to generate them before viewing the dashboard.
+
 ##  Troubleshooting
+
+**Issue:** Dataset file not found
+- **Solution:** Download `GrammarandProductReviews.csv` from Kaggle and place it in `data/raw/` directory
 
 **Issue:** Out of memory error
 - **Solution:** Use a smaller sample size or increase available RAM
