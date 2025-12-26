@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  jupyter:
+    build: .
+    container_name: sentiment-analysis-notebook
+    ports:
+      - "8888:8888"
+    volumes:
+      # Mount the entire project directory
+      - ./notebooks:/app/notebooks
+      - ./data:/app/data
+      - ./src:/app/src
+      # Persist Jupyter settings
+      - jupyter-data:/home/jupyter/.jupyter
+    environment:
+      - JUPYTER_ENABLE_LAB=yes
+      - PYTHONUNBUFFERED=1
+    restart: unless-stopped
+    # Optional: limit resources
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 4G
+        reservations:
+          cpus: '1'
+          memory: 2G
+
+volumes:
+  jupyter-data:

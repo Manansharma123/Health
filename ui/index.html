@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sentiment Analysis Dashboard</title>
+  <link rel="stylesheet" href="styles.css">
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <!-- PapaParse for CSV -->
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+  <!-- Main App Script -->
+  <script src="app.js?v=6"></script>
+</head>
+
+<body>
+  <div class="app-container">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="logo">
+        <div class="logo-icon"></div>
+        <div class="logo-text">
+          <h1>Sentiment AI</h1>
+          <p>Analytics Dashboard</p>
+        </div>
+      </div>
+
+      <nav>
+        <ul class="nav-menu">
+          <li class="nav-item">
+            <a href="#overview" class="nav-link active">
+              <span class="nav-icon"></span>
+              <span>Overview</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#exploration" class="nav-link">
+              <span class="nav-icon"></span>
+              <span>Data Exploration</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#brands" class="nav-link">
+              <span class="nav-icon"></span>
+              <span>Brand Analysis</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#sentiment" class="nav-link">
+              <span class="nav-icon"></span>
+              <span>Sentiment Analysis</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#affinity" class="nav-link">
+              <span class="nav-icon"></span>
+              <span>Brand Affinity</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#recommendations" class="nav-link">
+              <span class="nav-icon"></span>
+              <span>Recommendations</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#models" class="nav-link">
+              <span class="nav-icon"></span>
+              <span>ML Models</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Header -->
+      <header class="header">
+        <h1>Product Review Sentiment Analysis</h1>
+        <p>Comprehensive insights from 71,045 customer reviews</p>
+      </header>
+
+      <!-- Overview Section -->
+      <section id="overview" class="section fade-in">
+        <div class="section-header">
+          <div class="section-icon"></div>
+          <div class="section-title">
+            <h2>Overview</h2>
+            <p>Key metrics and statistics</p>
+          </div>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-label">Total Reviews</div>
+            <div class="stat-value" id="total-reviews">-</div>
+            <div class="stat-change"> Full dataset</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Average Rating</div>
+            <div class="stat-value" id="avg-rating">-</div>
+            <div class="stat-change"> Out of 5.0</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Recommendation Rate</div>
+            <div class="stat-value" id="rec-rate">-</div>
+            <div class="stat-change"> Would recommend</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Positive Sentiment</div>
+            <div class="stat-value" id="positive-sentiment">-</div>
+            <div class="stat-change"> Sentiment score</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Data Exploration Section -->
+      <section id="exploration" class="section fade-in">
+        <div class="section-header">
+          <div class="section-icon"></div>
+          <div class="section-title">
+            <h2>Data Exploration</h2>
+            <p>Distribution and patterns in review data</p>
+          </div>
+        </div>
+
+        <div class="chart-grid">
+          <div class="chart-container">
+            <div class="chart-header">
+              <h3 class="chart-title">Rating Distribution</h3>
+              <p class="chart-subtitle">Number of reviews by star rating</p>
+            </div>
+            <div class="chart-wrapper">
+              <canvas id="rating-distribution-chart"></canvas>
+            </div>
+          </div>
+
+          <div class="chart-container">
+            <div class="chart-header">
+              <h3 class="chart-title">Recommendation Distribution</h3>
+              <p class="chart-subtitle">Would customers recommend?</p>
+            </div>
+            <div class="chart-wrapper">
+              <canvas id="recommendation-chart"></canvas>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Brand Analysis Section -->
+      <section id="brands" class="section fade-in">
+        <div class="section-header">
+          <div class="section-icon"></div>
+          <div class="section-title">
+            <h2>Brand & Category Analysis</h2>
+            <p>Top performing brands and categories</p>
+          </div>
+        </div>
+
+        <div class="chart-grid">
+          <div class="chart-container">
+            <div class="chart-header">
+              <h3 class="chart-title">Top 15 Brands</h3>
+              <p class="chart-subtitle">By number of reviews</p>
+            </div>
+            <div class="chart-wrapper">
+              <canvas id="top-brands-chart"></canvas>
+            </div>
+          </div>
+
+          <div class="chart-container">
+            <div class="chart-header">
+              <h3 class="chart-title">Category Distribution</h3>
+              <p class="chart-subtitle">Product categories breakdown</p>
+            </div>
+            <div class="chart-wrapper">
+              <canvas id="category-chart"></canvas>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Sentiment Analysis Section -->
+      <section id="sentiment" class="section fade-in">
+        <div class="section-header">
+          <div class="section-icon"></div>
+          <div class="section-title">
+            <h2>Sentiment Analysis</h2>
+            <p>Multi-approach sentiment scoring</p>
+          </div>
+        </div>
+
+        <div class="chart-grid">
+          <div class="chart-container">
+            <div class="chart-header">
+              <h3 class="chart-title">Sentiment Comparison</h3>
+              <p class="chart-subtitle">Rating-based vs VADER vs Combined</p>
+            </div>
+            <div class="chart-wrapper">
+              <canvas id="sentiment-comparison-chart"></canvas>
+            </div>
+          </div>
+
+          <div class="chart-container">
+            <div class="chart-header">
+              <h3 class="chart-title">Sentiment Score Distribution</h3>
+              <p class="chart-subtitle">Combined sentiment scores</p>
+            </div>
+            <div class="chart-wrapper">
+              <canvas id="sentiment-distribution-chart"></canvas>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Brand Affinity Section -->
+      <section id="affinity" class="section fade-in">
+        <div class="section-header">
+          <div class="section-icon"></div>
+          <div class="section-title">
+            <h2>Brand Affinity Analysis</h2>
+            <p>Brand performance and customer loyalty metrics</p>
+          </div>
+        </div>
+
+        <div class="chart-grid">
+          <div class="chart-container">
+            <div class="chart-header">
+              <h3 class="chart-title">Top 20 Brand Affinity Scores</h3>
+              <p class="chart-subtitle">Sentiment-based brand performance</p>
+            </div>
+            <div class="chart-wrapper">
+              <canvas id="brand-affinity-chart"></canvas>
+            </div>
+          </div>
+
+          <div class="chart-container">
+            <div class="chart-header">
+              <h3 class="chart-title">Affinity vs Recommendation</h3>
+              <p class="chart-subtitle">Top 100 brands correlation analysis</p>
+            </div>
+            <div class="chart-wrapper">
+              <canvas id="affinity-recommendation-chart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Brand Affinity Table -->
+        <div class="table-container">
+          <div class="table-header">
+            <h3 class="table-title">Brand Performance Metrics</h3>
+            <div class="table-search">
+              <input type="text" id="brand-search" class="search-input" placeholder="Search brands...">
+            </div>
+          </div>
+          <div style="overflow-x: auto;">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th onclick="sortTable(0)">Brand</th>
+                  <th onclick="sortTable(1)">Reviews</th>
+                  <th onclick="sortTable(2)">Avg Rating</th>
+                  <th onclick="sortTable(3)">Affinity Score</th>
+                  <th onclick="sortTable(4)">Rec. Rate</th>
+                  <th onclick="sortTable(5)">Sentiment</th>
+                </tr>
+              </thead>
+              <tbody id="brand-table-body">
+                <tr>
+                  <td colspan="6" class="loading">
+                    <div class="spinner"></div>
+                    <span>Loading brand data...</span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- Recommendations Section -->
+      <section id="recommendations" class="section fade-in">
+        <div class="section-header">
+          <div class="section-icon"></div>
+          <div class="section-title">
+            <h2>Product Recommendations</h2>
+            <p>Top recommended products based on sentiment analysis</p>
+          </div>
+        </div>
+
+        <div class="table-container">
+          <div class="table-header">
+            <h3 class="table-title">Top Recommendations</h3>
+            <div class="table-search">
+              <input type="text" id="rec-search" class="search-input" placeholder="Search products...">
+            </div>
+          </div>
+          <div style="overflow-x: auto;">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th onclick="sortRecTable(0)">Product</th>
+                  <th onclick="sortRecTable(1)">Brand</th>
+                  <th onclick="sortRecTable(2)">Category</th>
+                  <th onclick="sortRecTable(3)">Rating</th>
+                  <th onclick="sortRecTable(4)">Sentiment</th>
+                  <th onclick="sortRecTable(5)">Reviews</th>
+                </tr>
+              </thead>
+              <tbody id="recommendations-table-body">
+                <tr>
+                  <td colspan="6" class="loading">
+                    <div class="spinner"></div>
+                    <span>Loading recommendations...</span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ML Models Section -->
+      <section id="models" class="section fade-in">
+        <div class="section-header">
+          <div class="section-icon"></div>
+          <div class="section-title">
+            <h2>Machine Learning Models</h2>
+            <p>Classification model performance</p>
+          </div>
+        </div>
+
+        <div class="chart-grid">
+          <div class="chart-container">
+            <div class="chart-header">
+              <h3 class="chart-title">Model Accuracy Comparison</h3>
+              <p class="chart-subtitle">Logistic Regression, Naive Bayes, Random Forest</p>
+            </div>
+            <div class="chart-wrapper">
+              <canvas id="model-accuracy-chart"></canvas>
+            </div>
+          </div>
+
+          <div class="chart-container">
+            <div class="chart-header">
+              <h3 class="chart-title">Classification Metrics</h3>
+              <p class="chart-subtitle">Precision, Recall, F1-Score</p>
+            </div>
+            <div class="chart-wrapper">
+              <canvas id="model-metrics-chart"></canvas>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+
+</html>
